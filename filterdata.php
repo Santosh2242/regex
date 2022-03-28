@@ -9,18 +9,13 @@ $image = '/ src="(.*?)"/';
 $n = preg_match_all($name, $data, $b);
 //$rating = trim($b[1]);
 //echo $rating;
-$p = preg_match_all($price, $data, $c, PREG_UNMATCHED_AS_NULL);
+$p = preg_match_all($price, $data, $c);
 $r = preg_match_all($rating, $data, $d);
 $i = preg_match_all($image, $data, $e);
-/*echo "<pre>";
-print_r(array_merge($b[0], $c[0]));
+echo "<pre>";
+//print_r($c);
 
-echo "data>";
 
-print_r($b[0]);
-print_r($c[0]);
-print_r($d[0]);
-print_r($e[0]);*/
 
 $cars = array(
     array($b[0]),
@@ -28,37 +23,37 @@ $cars = array(
     array($d[0]),
     array($e[0])
 );
-echo "<pre>";
-//print_r($cars);
-
-print_r($cars[0][0][0]);
-echo "<br>";
-print_r($cars[1][0][0]);
-echo "<br>";
-print_r($cars[2][0][0]);
-echo "<br>";
-print_r($cars[3][0][0]);
-
-echo "<br>";
-
-print_r($cars[0][0][1]);
-echo "<br>";
-print_r($cars[1][0][1]);
-echo "<br>";
-print_r($cars[2][0][1]);
-echo "<br>";
-print_r($cars[3][0][1]);
-    
-/*$all = array_merge($d, $e);
-foreach ($all as $ds) {
-    echo "<pre>";
-    print_r($ds[0]);
+/*
+// Single array
+$result = array();
+for ($i = 0; $i < 21; $i++) {
+    for ($j = 0; $j < 4; $j++) {
+        $a = $cars[$j][0][$i];
+        $result[] = $a;
+    }
 }
-
-
-if (preg_match($name, $data, $match)) {
-    echo "<pre>";
-    $match = array_merge(array('lang' => '', 'qval' => ''), $match);
-    print_r($match);
-}
+print_r($result);
 */
+
+/*
+for ($i = 0; $i < 22; $i++) {
+    for ($j = 0; $j < 4; $j++) {
+        echo "<pre>";
+        $a =  $cars[$j][0][$i];
+        print_r($a);
+    }
+}*/
+
+$name = [];
+
+for ($i = 0; $i < 22; $i++) {
+
+    echo "<pre>";
+    $y['name'] =  $cars[0][0][$i];
+    $y['price'] =  $cars[1][0][$i];
+    $y['rating'] =  $cars[2][0][$i];
+    $y['url'] =  $cars[3][0][$i];
+    $name[] = $y;
+}
+
+print_r($name);
