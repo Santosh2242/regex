@@ -1,8 +1,8 @@
 <?php
 
-$data = file_get_contents('flipcart.html');
+$data = file_get_contents('data.html');
 
-$image =  '/<img class="s-image"(.*?)/';
+$image =  '/src="(.*?)"/';
 preg_match_all($image, $data, $f);
 echo "hiiii";
 echo "<pre>";
