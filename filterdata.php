@@ -1,91 +1,69 @@
 <?php
-
 ini_set('display_errors', 0);
 ini_set('display_startup_errors', 0);
-
 $data = file_get_contents('data.html');
-$name = '/<span class="a-size-medium a-color-base a-text-normal"\>(.*?)<\/span>/';
-$price = '/<span class="a-price-whole"\>(.*?)<\/span>/';
-$rating = '/<span class="a-icon-alt"\>(.*?)<\/span>/';
-$imageurl = '/ (http.*\.)(jpe?g|png|[tg]iff?svg)/i';
 
-
-
+$name = '/<span id="productTitle" class="a-size-large product-title-word-break">(.*?) <\/span>/';
+$rating = '/<span class="a-icon-alt">(.*?)<\/span>/';
+$price = '/<span aria-hidden="true">(.*?)<\/span>/';
+$size = '/<span class="a-size-base">(.*?)<\/span>/';
+$imageurl = '/ (http.*\.)(jpe?g|jpg|[tg]iff?svg)/i';
 $url = '/(?:dp|o|gp|-)\/(B[0-9]{2}[0-9A-Z]{7}|[0-9]{9}(?:X|[0-9]))/';
-$n = preg_match_all($url, $data, $b);
+$length = '/data-a-html-content="(.*?)"/';
 
-$newArr = array();
-$a = '';
+preg_match_all($name, $data, $a);
+preg_match($rating, $data, $b);
+preg_match_all($price, $data, $c);
 
-foreach ($b[0] as $inputArrayItem) {
-    foreach ($newArr as $outputArrayItem) {
-        if ($inputArrayItem == $outputArrayItem) {
-            continue 2;
-        }
-    }
-    $newArr[] =  $inputArrayItem;
+
+
+preg_match_all($length, $data, $l);
+preg_match_all($size, $data, $d);
+echo "<pre>";
+print_r($d[0][1]);
+
+preg_match_all($imageurl, $data, $e);
+$n = preg_match_all($url, $data, $f);
+
+$m = implode(' ', $l[1]);
+
+$newArr = [];
+for ($i = 1; $i < 4; $i++) {
+    echo "<pre>";
+
+    $newArr[] = $d[0][$i];
+}
+$arr = [];
+for ($i = 0; $i < 1; $i++) {
+    $z['dimensions'] = $newArr[0];
+    //$z['Length'] = $newArr[1];
+    $z['Color'] = $newArr[2];
+    $arr[] =  $z;
 }
 
-
-
-
-
-/*
-echo "<pre>";
-print_r($f[0]);
-*/
-
-$n = preg_match_all($name, $data, $b);
-//$rating = trim($b[1]);
-//echo $rating;
-$p = preg_match_all($price, $data, $c);
-$r = preg_match_all($rating, $data, $d);
-$i = preg_match_all($imageurl, $data, $e);
-
-echo "<pre>";
-//print_r($c);
 
 
 
 $cars = array(
+    array($a[0][0]),
     array($b[0]),
-    array($c[0]),
-    array($d[0]),
-    array($e[0]),
-    array($newArr)
+    array($c[0][1]),
+    array($f[0][1]),
+    array($arr[0]),
+    array($m)
 );
-/*
-// Single array
-$result = array();
-for ($i = 0; $i < 21; $i++) {
-    for ($j = 0; $j < 4; $j++) {
-        $a = $cars[$j][0][$i];
-        $result[] = $a;
-    }
-}
-print_r($result);
-*/
 
-/*
-for ($i = 0; $i < 22; $i++) {
-    for ($j = 0; $j < 4; $j++) {
-        echo "<pre>";
-        $a =  $cars[$j][0][$i];
-        print_r($a);
-    }
-}*/
+//print_r($cars);
 
 $name = [];
-
-for ($i = 0; $i < 23; $i++) {
-
+for ($i = 0; $i < 4; $i++) {
     echo "<pre>";
-    $y['name'] =  $cars[0][0][$i];
-    $y['price'] =  $cars[1][0][$i];
-    $y['rating'] =  $cars[2][0][$i];
-    $y['imageurl'] = end(explode(" ", $cars[3][0][$i]));
-    $y['url'] =  $cars[4][0][$i];
+    $y['name'] = $cars[0][0];
+    $y['Rating'] = $cars[1][0];
+    $y['Price'] = $cars[2][0];
+    $y['Product_url'] = 'https://www.amazon.com/' . $cars[3][0];
+    $y['color'] = $cars[4][0];
+    $y['length'] = $m;
     $name[] = $y;
 }
-
 print_r($name);
